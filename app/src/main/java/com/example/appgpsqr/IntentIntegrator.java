@@ -1,3 +1,4 @@
+package com.example.appgpsqr;
 
 /*
  * Copyright 2009 ZXing authors
@@ -15,10 +16,6 @@
  * limitations under the License.
  */
 
-//Este archivo ha sido obtenido de:
-//https://github.com/zxing/zxing/blob/master/android-integration/src/main/java/com/google/zxing/integration/android/IntentIntegrator.java
-
-package com.example.appgpsqr;
 
         import java.util.Arrays;
         import java.util.Collection;
