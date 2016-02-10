@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">appGPSQR</string>
     <string name="action_settings">Settings</string>
+    <string name="latitud">Latitud</string>
+    <string name="longitud">Longitud</string>
+    <string name="buscar_ruta">BUSCAR RUTA</string>
 </resources>

@@ -1,5 +1,3 @@
-package com.example.appgpsqr;
-
 /*
  * Copyright 2009 ZXing authors
  *
@@ -16,7 +14,10 @@ package com.example.appgpsqr;
  * limitations under the License.
  */
 
-//package com.google.zxing.integration.android;
+//Este archivo ha sido obtenido de:
+//https://github.com/zxing/zxing/blob/master/android-integration/src/main/java/com/google/zxing/integration/android/IntentResult.java
+
+package com.example.appgpsqr;
 
 /**
  * <p>Encapsulates the result of a barcode scan invoked through {@link IntentIntegrator}.</p>
