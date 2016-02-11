@@ -18,8 +18,6 @@
 package com.example.appgpsqr;
 
 import android.Manifest;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -27,7 +25,6 @@ import android.location.LocationManager;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,16 +32,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.content.Intent;
-
 import java.util.ArrayList;
 import java.util.Locale;
-
 import android.net.Uri;
+import android.widget.Toast;
 
 /**
  * Aplicación que lee unas coordenadas de un código QR y mustra la ruta en google maps,
@@ -54,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private TextView x;
     private TextView y;
     private Button bRuta;
+    private Button mRecorrido;
     private double latitud;
     private double longitud;
     private ArrayList<Location> recorrido;
@@ -86,6 +81,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             @Override
             public void onClick(View v) {
                 clickButton();
+            }
+        });
+        mRecorrido =(Button) findViewById(R.id.buttonRecorrido);
+        mRecorrido.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarRecorrido();
             }
         });
         recorrido=new ArrayList<Location>();
@@ -191,26 +193,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Toast.makeText(this, getString(R.string.geo_desactivada), Toast.LENGTH_LONG).show();
             return;
         }
         Location pos = lm.getLastKnownLocation(proveedor);
         recorrido.add(pos);
-        if(pos.getLatitude()==latitud && pos.getLongitude()==longitud){
-            this.onResume();
-            String direccion="https://www.google.com/maps/dir/";
-            for(Location l:recorrido){
-                direccion += l.getLatitude()+","+l.getLongitude()+"/";
 
-            }
-            String uri = String.format(Locale.ENGLISH, direccion);
-            intent.setData(Uri.parse(uri));
+        String uri = String.format(Locale.ENGLISH, "https://www.google.com/maps/dir/%f,%f/%f,%f/", pos.getLatitude(), pos.getLongitude(), latitud, longitud);
 
+        intent.setData(Uri.parse(uri));
 
-        }else {
-            String uri = String.format(Locale.ENGLISH, "https://www.google.com/maps/dir/%f,%f/%f,%f/", pos.getLatitude(), pos.getLongitude(), latitud, longitud);
-
-            intent.setData(Uri.parse(uri));
-        }
         Log.d("LOGTAG", "Lista: " + pos.getLatitude() + " " + pos.getLongitude());
     }
 
@@ -226,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            Toast.makeText(this, getString(R.string.geo_desactivada), Toast.LENGTH_LONG).show();
             return;
         }
         Location pos = lm.getLastKnownLocation(proveedor);
@@ -234,8 +227,38 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         //String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitud, longitud);
 
         //String uri = String.format(Locale.ENGLISH, "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", pos.getLatitude(), pos.getLongitude(),  latitud, longitud);
-        String uri = String.format(Locale.ENGLISH, "https://www.google.com/maps/dir/%f,%f/%f,%f/", pos.getLatitude(), pos.getLongitude(),  latitud, longitud);
+        String uri = String.format(Locale.ENGLISH, "https://www.google.com/maps/dir/%f,%f/%f,%f/", pos.getLatitude(), pos.getLongitude(), latitud, longitud);
 
+        intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+        this.startActivity(intent);
+
+    }
+
+    /**
+     * Metodo para mostrar el recorrido realizado.
+     */
+    private void mostrarRecorrido(){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+
+            Toast.makeText(this, getString(R.string.geo_desactivada), Toast.LENGTH_LONG).show();
+            return;
+        }
+        Location pos = lm.getLastKnownLocation(proveedor);
+        recorrido.add(pos);
+        String direccion="https://www.google.com/maps/dir/";
+        for(Location l:recorrido){
+            direccion += l.getLatitude()+","+l.getLongitude()+"/";
+
+        }
+        String uri = String.format(Locale.ENGLISH, direccion);
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         this.startActivity(intent);

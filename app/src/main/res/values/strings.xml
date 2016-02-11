@@ -4,4 +4,6 @@
     <string name="latitud">Latitud</string>
     <string name="longitud">Longitud</string>
     <string name="buscar_ruta">BUSCAR RUTA</string>
+    <string name="mostrar_recorrido">MOSTRAR RECORRIDO</string>
+    <string name="geo_desactivada">Servicios de Ubicación Desastivados</string>
 </resources>
