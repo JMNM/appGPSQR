@@ -28,7 +28,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
@@ -170,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     x.setText(latitud + "");
                     y.setText(longitud + "");
-
                 }
                 break;
             }
@@ -200,9 +198,6 @@ public class MainActivity extends AppCompatActivity {
                 recorrido.add(location);
                 pos_ant=location;
             }
-
-
-            Log.d("LOGTAG", "Recorrido: " + recorrido.size());
         }
 
         @Override
@@ -247,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
         String uri = String.format(Locale.ENGLISH, "https://www.google.es/maps/dir/%f,%f/%f,%f/",pos.getLatitude(),pos.getLongitude(),latitud,longitud);
         //Se crea el intent con el Uri anterior
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        //Para que se habra con Google Maps
+        //Para que se abra con Google Maps
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         //Se inicia el intent
         this.startActivity(intent);
@@ -271,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
         //Se crea el Uri para el Intent
         String uri = String.format(Locale.ENGLISH, direccion);
         intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-        //Para que se habra con Google Maps
+        //Para que se abra con Google Maps
         intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
         //Se inicia el Intent
         this.startActivity(intent);
